@@ -4,11 +4,11 @@
 ### 1.项目为什么要用缓存？
 高性能和高并发
 #### 缓存怎么实现高性能？
-![421ba45396512561263559ec83879c01.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p777)
+![421ba45396512561263559ec83879c01](分布式缓存.resources/01_缓存是如何实现高性能的.png)
 
 
 #### 缓存怎么实现高并发？
-![16e143ee82b248984a046cf14103f69e.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p778)
+![16e143ee82b248984a046cf14103f69e](分布式缓存.resources/02_缓存是如何实现高并发的.png)
 
 #### 缓存用了有什么不良后果？
 1）缓存与数据库双写不一致
@@ -28,7 +28,7 @@
 4）**集群模式**：memcached没有原生的集群模式，需要依靠客户端来实现往集群中分片写入数据；但是redis目前是原生支持cluster模式的，redis官方就是支持redis cluster集群模式的，比memcached来说要更好
 
 #### redis的线程模型是什么？
-![909f48370c11dd622a54becb2b70f486.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p779)
+![909f48370c11dd622a54becb2b70f486](分布式缓存.resources/01_redis单线程模型.png)
 
 ```
 1）文件事件处理器
@@ -163,7 +163,7 @@ redis主从架构 -> 读写分离架构 -> 可支持水平扩展的读高并发�
 
 ##### redis replication基本原理
 **redis replication的核心机制**
-![58f5e4ae1c9c07a13a8c5958ac4f19f1.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p781)
+![58f5e4ae1c9c07a13a8c5958ac4f19f1](分布式缓存.resources/redis replica最最基本的原理.png)
 
 ```
 （1）redis采用异步方式复制数据到slave节点，不过redis 2.8开始，slave node会周期性地确认自己每次复制的数据量
@@ -198,7 +198,7 @@ master节点，必须要使用持久化机制
 即使采用了后续讲解的高可用机制，slave node可以自动接管master node，但是也可能sentinal还没有检测到master failure，master node就自动重启了，还是可能导致上面的所有slave node数据清空故障
 ```
 ##### redis主从复制的核心原理
-![18f13eb3f9c9d82bf9f72e2ed478dd83.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p782)
+![18f13eb3f9c9d82bf9f72e2ed478dd83](分布式缓存.resources/redis主从复制的原理.png)
 ```
 1、主从架构的核心原理
 
@@ -232,7 +232,7 @@ slave不会过期key，只会等待master过期key。如果master过期了一个
 ##### redis怎么做到高可用？
 
 >**基于哨兵（sentinal）的高可用性**
-![500011ad6cc7863db46198cfe9e6af6f.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p784)
+![500011ad6cc7863db46198cfe9e6af6f](分布式缓存.resources/redis基于哨兵的高可用性.png)
 
 哨兵的作用就是监控Redis系统的运行状况，它的功能包括两个
 
@@ -240,7 +240,7 @@ slave不会过期key，只会等待master过期key。如果master过期了一个
 master出现故障时自动将slave数据库升级为master	
 哨兵是一个独立的进程，使用哨兵后的架构图
 
-![7b3581cddee1164d658428ea88d0caad.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p785)
+![7b3581cddee1164d658428ea88d0caad](分布式缓存.resources/7209689C-695A-4ACD-80CE-8FEC6A854BB1.png)
 
 ### 6.redis持久化有哪些方式，不同持久化机制有哪些优缺点？持久化机制具体底层如何实现的？
 
@@ -333,10 +333,10 @@ hash slot让node的增加和移除很简单，增加一个master，就将其他m
 
 #### 雪崩
 **出现雪崩的现象**
-![8c0df2b3553c28db9789c3979444ed40.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p786)
+![8c0df2b3553c28db9789c3979444ed40](分布式缓存.resources/01_缓存雪崩现象.png)
 
 **解决雪崩方案**
-![0e776b144eb999373517427cee759885.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p787)
+![0e776b144eb999373517427cee759885](分布式缓存.resources/02_如何解决缓存雪崩.png)
 ```
 事前：redis高可用，主从+哨兵，redis cluster，避免全盘崩溃
 事中：本地ehcache缓存 + hystrix限流&降级，避免MySQL被打死
@@ -347,7 +347,7 @@ hash slot让node的增加和移除很简单，增加一个master，就将其他m
 
 #### 穿透
 
-![54474da40416492c47b3bb1632ec186c.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p788)
+![54474da40416492c47b3bb1632ec186c](分布式缓存.resources/03_缓存穿透现象以及解决方案.png)
 
 ### 9.如何保证缓存和数据库的双写一致性？
 ```
@@ -368,7 +368,7 @@ hash slot让node的增加和移除很简单，增加一个master，就将其他m
 mybatis，hibernate，懒加载，思想
 
 方案：利用productId利用hash分片打到对应的服务器的一个队列里面，当写请求(减库存)来的时候，进入队列，然后删除redis并更新数据库，当同时有读请求进来的时候，发现redis为空，那么也进入该对列排队，同时写请求执行完的时候，redis已经有数据的，写请求又能读到redis的数据的，其他的读请求看到队列里面已经有一个读请求在排队了，那么他们就不入队列，而是在外面每20毫秒取一次redis看看redis数据是否有数据了，如果有则直接返回，如果没有就取10次，一共200毫秒(看你能接受的范围)，这样就既能解决高并发问题，又能解决数据库+缓存双写一致性的问题了
-![a3c3c0a3813a6b53cb9bdedfedfb1e23.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p789)
+![a3c3c0a3813a6b53cb9bdedfedfb1e23](分布式缓存.resources/复杂的数据库+缓存双写一致保障方案.png)
 
 
 ### 10.redis的并发竞争，了解Redis事务的CAS方案？
@@ -402,7 +402,7 @@ https://www.jianshu.com/p/8bddd381de06
 其他方法，比如利用队列，将set方法变成串行访问也可以。总之，灵活变通。
 
 ```
-![681d38e6f71431c9e553d09700e77627.png](evernotecid://F0087CA8-D813-46C2-A934-106E915ED617/appyinxiangcom/13546140/ENResource/p790)
+![681d38e6f71431c9e553d09700e77627](分布式缓存.resources/01_redis并发竞争问题以及解决方案.png)
 
 ### 11.redis集群的部署架构是什么样？
 ```
